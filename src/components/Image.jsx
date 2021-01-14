@@ -36,12 +36,14 @@ function Image({
 
 Image.propTypes = {
   alt: PropTypes.string.isRequired,
+  className: PropTypes.string,
   height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   onClick: PropTypes.func,
   src: PropTypes.string,
   width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 Image.defaultProps = {
+  className: null,
   height: null,
   onClick: null,
   src: "",

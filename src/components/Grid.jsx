@@ -14,17 +14,7 @@ const GridWrapper = styled.section`
   grid-template-rows: ${(props) => {
     return props.rows || "auto";
   }};
-  align-items: ${(props) => {
-    return props.alignItems || "flex-start";
-  }};
-  justify-items: ${(props) => {
-    return props.justifyItems || "";
-  }};
-  text-align: ${(props) => {
-    return props.textAlign || "";
-  }};
   width: 100%;
-  padding: 1rem;
 `;
 
 function Grid({

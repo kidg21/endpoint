@@ -8,6 +8,15 @@ export const fontSize = {
     base: "16px",
 };
 
+const baseSpace = 4;
+export const spacing = {
+    x: `${baseSpace}px`,
+    x2: `${baseSpace * 2}px`,
+    x4: `${baseSpace * 4}px`,
+    x8: `${baseSpace * 8}px`,
+    x16: `${baseSpace * 16}px`,
+}
+
 // color palette
 export const colors = {
 
@@ -33,18 +42,9 @@ export const colors = {
     grey80: "hsl(240, 2%, 23%)",
     grey90: "hsl(240, 2%, 18%)",
     grey100: "hsl(34, 5%, 12%)",
-    black: "hsl(0,0%,0%)",
+    black: "hsl(0, 0%, 13%)",
 
 };
-
-const baseSpace = 4;
-export const spacing = {
-    x: `${baseSpace}px`,
-    x2: `${baseSpace * 2}px`,
-    x4: `${baseSpace * 4}px`,
-    x8: `${baseSpace * 8}px`,
-    x16: `${baseSpace * 16}px`,
-}
 
 const viewport = {
     mobile: '414px',
