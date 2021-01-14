@@ -8,13 +8,13 @@ export const fontSize = {
     base: "16px",
 };
 
-const baseSpace = 4;
+const baseSpace = 0.25;
 export const spacing = {
-    x: `${baseSpace}px`,
-    x2: `${baseSpace * 2}px`,
-    x4: `${baseSpace * 4}px`,
-    x8: `${baseSpace * 8}px`,
-    x16: `${baseSpace * 16}px`,
+    x: `${baseSpace}rem`,
+    x2: `${baseSpace * 2}rem`,
+    x4: `${baseSpace * 4}rem`,
+    x8: `${baseSpace * 8}rem`,
+    x16: `${baseSpace * 16}rem`,
 }
 
 // color palette
