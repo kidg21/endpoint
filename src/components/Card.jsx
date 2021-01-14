@@ -1,8 +1,11 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { screen, colors, spacing } from "../base/Variables.jsx";
+import { Title, SubTitle, Divider } from "../base/Typography.jsx";
 import Grid from "./Grid.jsx";
 import Image from "./Image.jsx";
+import { FieldGroup } from "./Field.jsx";
 
 const CardWrapper = styled.div`
   position: relative;
@@ -22,7 +25,9 @@ const CardSectionWrapper = styled.section`
   flex-direction: column;
   flex: 0 0 auto;
   padding: ${spacing.x2} ${spacing.x4} 0;
-    // border-bottom: ${(props) => { return props.hasBorder ? `1px solid ${colors.black}` : ""; }};
+  &:last-of-type {
+      padding-bottom: ${spacing.x2};
+  }
 `;
 
 const ImageWrapper = styled.section`
@@ -37,21 +42,16 @@ const CardImage = styled(Image)`
 `;
 
 const CardGridWrapper = styled(Grid)`
-  grid-template-columns: ${(props) => {
-        // return props.columns ? `repeat(${props.columns}, minmax(0, 1fr))` : "repeat(auto-fill, minmax(325px, 1fr))";
-    }};
-  padding: ${(props) => {
-        return props.padding;
-    }};
     grid-template-columns: repeat(1, 1fr);
     @media ${screen.tablet} {
         grid-template-columns: repeat(2, 1fr);
     }
     @media ${screen.desktop} {
         grid-template-columns: repeat(3, 1fr);
-        max-width: 80%;
+        max-width: 80%; 
         margin: 0 auto;
     }
+    padding: 1rem;
   ${CardWrapper} {
     height: 100%;
     box-shadow: ${colors.shade3} 0 0 1px 1px;
@@ -62,36 +62,31 @@ const CardGridWrapper = styled(Grid)`
   }
 `;
 
-const Title = styled.h6`
-    font-weight: 600;
-`;
-
-const SubTitle = styled.p`
-    font-weight: 400;
-`;
-
-const Divider = styled.hr`
-    width: 100%;
-    margin: 0;
-    margin-top: ${spacing.x2};
-`;
-
 function CardSection({
-    children, className, hasBorder,
-  }) {
+    children, className,
+}) {
     return (
-      <CardSectionWrapper
-        className={className}
-        hasBorder={hasBorder}
-      >
-        {children}
-      </CardSectionWrapper>
+        <CardSectionWrapper
+            className={className}
+        >
+            {children}
+        </CardSectionWrapper>
     );
+}
+
+CardSection.propTypes = {
+    children: PropTypes.node,
+    className: PropTypes.string,
+};
+CardSection.defaultProps = {
+    children: null,
+    className: null,
 };
 
 const Card = ({
     children,
     className,
+    data,
     id,
     media,
     onClick,
@@ -111,11 +106,16 @@ const Card = ({
                 </ImageWrapper>
             ) : null}
             {title || subtitle ? (
-                <CardSection hasBorder>
+                <CardSection>
                     {title ? <Title>{title}</Title> : null}
                     {subtitle ? <SubTitle>{subtitle}</SubTitle> : null}
-                    <Divider />
+                    {data ? <Divider /> : null}
                 </CardSection>
+            ) : null}
+            {data ? (
+                <CardSectionWrapper>
+                    <FieldGroup data={data} />
+                </CardSectionWrapper>
             ) : null}
             {children ? (
                 <CardSectionWrapper>
@@ -124,30 +124,50 @@ const Card = ({
             ) : null}
         </CardWrapper>
     );
+}
+
+
+Card.propTypes = {
+    children: PropTypes.node,
+    className: PropTypes.string,
+    data: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
+    id: PropTypes.string,
+    media: PropTypes.string,
+    onClick: PropTypes.func,
+    subtitle: PropTypes.string,
+    title: PropTypes.string,
+};
+Card.defaultProps = {
+    children: null,
+    className: null,
+    data: null,
+    id: null,
+    media: null,
+    onClick: null,
+    subtitle: null,
+    title: null,
 };
 
 function CardGrid({
-    children, className, columns, data, gap, id, padding, placeholder, rows,
+    children, className, data, gap, id,
 }) {
     return (
         <CardGridWrapper
             className={className}
-            columns={columns}
-            padding={padding}
-            gap={gap || "lg"}
+            gap={gap || "2xl"}
             id={id}
-            rows={rows}
-            placeholder={placeholder}
         >
             {children
-                || data.map((item) => {
+                || data.map((item, index) => {
                     return (
                         <Card
+                            key={item.id || item.title || index}
                             id={item.id}
-                            key={item.id}
+                            data={item.data}
                             media={item.media}
                             onClick={item.onClick}
                             title={item.title}
+                            subtitle={item.subtitle}
                             variant={item.variant}
                         >
                             {item.children}
@@ -158,4 +178,35 @@ function CardGrid({
     );
 }
 
-export { Card as default, CardGrid };
+CardGrid.propTypes = {
+    children: PropTypes.node,
+    className: PropTypes.string,
+    data: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
+    /** Sets the 'gutter' between grid items
+     *
+     * Options: Any switch case or any standard value accepted by the CSS Grid property, 'grid-gap'.
+     */
+    gap: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.oneOf([
+            "0",
+            "xs",
+            "sm",
+            "lg",
+            "xl",
+            "2xl",
+            "3xl",
+            "4xl",
+        ]),
+    ]),
+    id: PropTypes.string,
+};
+CardGrid.defaultProps = {
+    children: null,
+    className: null,
+    data: null,
+    gap: null,
+    id: null,
+};
+
+export { Card as default, CardSection, CardGrid };
