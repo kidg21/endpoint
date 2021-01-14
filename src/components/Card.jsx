@@ -86,7 +86,7 @@ CardSection.defaultProps = {
 const Card = ({
     children,
     className,
-    data,
+    fields,
     id,
     media,
     onClick,
@@ -109,12 +109,12 @@ const Card = ({
                 <CardSection>
                     {title ? <Title>{title}</Title> : null}
                     {subtitle ? <SubTitle>{subtitle}</SubTitle> : null}
-                    {data ? <Divider /> : null}
+                    {fields ? <Divider /> : null}
                 </CardSection>
             ) : null}
-            {data ? (
+            {fields ? (
                 <CardSectionWrapper>
-                    <FieldGroup data={data} />
+                    <FieldGroup data={fields} />
                 </CardSectionWrapper>
             ) : null}
             {children ? (
@@ -130,7 +130,7 @@ const Card = ({
 Card.propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
-    data: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
+    fields: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
     id: PropTypes.string,
     media: PropTypes.string,
     onClick: PropTypes.func,
@@ -140,7 +140,7 @@ Card.propTypes = {
 Card.defaultProps = {
     children: null,
     className: null,
-    data: null,
+    fields: null,
     id: null,
     media: null,
     onClick: null,
@@ -163,7 +163,7 @@ function CardGrid({
                         <Card
                             key={item.id || item.title || index}
                             id={item.id}
-                            data={item.data}
+                            fields={item.fields}
                             media={item.media}
                             onClick={item.onClick}
                             title={item.title}
